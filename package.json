@@ -1,0 +1,43 @@
+{
+  "name": "audiostream",
+  "version": "0.0.1",
+  "description": "Audio stream project to imitate spotify",
+  "main": "./src/index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node src/index.js",
+    "serve": "nodemon src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Duccem/audiostream.git"
+  },
+  "keywords": [
+    "audiostream",
+    "spotify",
+    "nodejs",
+    "mongodb"
+  ],
+  "author": "Jose Veliz",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Duccem/audiostream/issues"
+  },
+  "homepage": "https://github.com/Duccem/audiostream#readme",
+  "dependencies": {
+    "cloudinary": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "fs-extra": "^8.1.0",
+    "gridfs-stream": "^1.1.1",
+    "mongodb": "^3.5.4",
+    "mongoose": "^5.9.3",
+    "morgan": "^1.9.1",
+    "multer": "^1.4.2",
+    "music-metadata": "^6.3.6"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2"
+  }
+}

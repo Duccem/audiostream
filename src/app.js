@@ -19,7 +19,7 @@ const storage = multer.diskStorage({//manejador de archivos como imagenes
 //midlewares 
 app.use(cors());
 app.use(morgan('dev'));
-app.use('/images',express.static(path.resolve(__dirname,'public')));
+app.use('/',express.static(path.resolve(__dirname,'public')));
 app.use('/track',multer({storage}).fields([
     {
         name:'track',

@@ -9,8 +9,6 @@ const { getConnection } = require('../../database');
 const { cloudinary } = require('../../claudinary');
 
 
-
-
 //Get the date of one track
 async function getTrack(req,res){
     const { id } = req.params;
@@ -27,7 +25,6 @@ async function getTrack(req,res){
 async function getAllTracks(req,res){
     try {
         let tracks;
-        console.log('hola')
         const { name } = req.query;
         if(!name){
             tracks = await TrackInformation.find();
@@ -43,43 +40,37 @@ async function getAllTracks(req,res){
 
 //Create a stram of one track to play it
 function playTrack(req, res) {
-    const { id } = req.params;
+    
+    let trackID;
     try {
-
-        //set the headers to the browser
-        res.set('content-type','audio/mp3');
-        res.set('accept-ranges','bytes');
-
-        let trackID;
-        try {
-            trackID = new mongoose.mongo.ObjectID(id);
-        } catch (error) {
-            return res.status(400).json({ message: "Invalid track in URL parameter." });
-        }
-        //get the connection and the GridFS system
-        const db = getConnection();
-        let bucket = new mongoose.mongo.GridFSBucket(db, {
-            bucketName: 'tracks'
-        });
-
-        let downloadStream = bucket.openDownloadStream(trackID);
-
-        downloadStream.on('data', chunk => {
-            res.write(chunk);
-        });
-
-        downloadStream.on('error', () => {
-            res.sendStatus(404);
-        });
-
-        downloadStream.on('end', () => {
-            res.end();
-        });
+        const { id } = req.params;
+        trackID = new mongoose.mongo.ObjectID(id);
     } catch (error) {
+        return res.status(400).json({ message: "Invalid track in URL parameter." });
+    }
+
+    res.set('content-type','audio/mp3');
+    res.set('accept-ranges','bytes');
+    //get the connection and the GridFS system
+    const db = getConnection();
+    let bucket = new mongoose.mongo.GridFSBucket(db, {
+        bucketName: 'tracks'
+    });
+
+    let downloadStream = bucket.openDownloadStream(trackID);
+
+    downloadStream.on('data', chunk => {
+        res.write(chunk);
+    });
+
+    downloadStream.on('error', () => {
         console.log(error);
         return res.status(500).json({message:'Internal Server Error'});
-    
-    }
+    });
+
+    downloadStream.on('end', () => {
+        res.end();
+    });
 }
 
 //Save the data of a track and the files attached 
